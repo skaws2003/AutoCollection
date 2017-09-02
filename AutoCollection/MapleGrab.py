@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 """
-Modules for capturing various objects in MapleStory.
+A module for capturing various objects in MapleStory(KMS).
 Only for 800*600, with the program running on the top left corner of the screen.
 """
 
@@ -13,7 +13,7 @@ def capture_all(format=0):
     Returnes the captured image
 
     Fields
-    ¡¤format: the format of returned image(0 for PIL, 1 for OpenCv)
+    - format: the format of returned image(0 for PIL, 1 for OpenCv)
     """
     pil_image = ImageGrab.grab(bbox=(0.26,800,600))
     if format == 0:
@@ -28,7 +28,7 @@ def capture_arrow_collection(format=0):
     Returnes the list of 4 arrows.
 
     Fields
-    ¡¤foramt: the format of returned image(0 for PIL, 1 for OpenCV)
+    - foramt: the format of returned image(0 for PIL, 1 for OpenCV)
     """
     img = []
     img.append(ImageGrab.grab(bbox=(248,231,276,259)))
@@ -41,4 +41,20 @@ def capture_arrow_collection(format=0):
             img[i] = cv2.cvtColor(np.array(img[i]), cv2.COLOR_RGB2BGR)
 
     return img
+
+def templateMatch(image,template):
+    """
+    Template matching function(Grayscale).
+    returns the top-seft location of matching place with tuple(x,y).
+
+    Fields
+    - image: source image
+    - template: template image 
+    """
+    threshold = 0.8
+    image_gray = cv2.cvtColor(image,cv2.color_BGR2Gray)
+    w, h = template.shape[::-1]
+    res = cv2.matchTemplate(image_gray,template,cv2.TM_CCOEFF_NORMED)
+    _a,_b,_c,loc = cv2.minMaxLoc(res)
+    return loc
 

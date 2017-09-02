@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ArrowNet.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AutoCollection.py" />
     <Compile Include="MapleGrab.py">
       <SubType>Code</SubType>
