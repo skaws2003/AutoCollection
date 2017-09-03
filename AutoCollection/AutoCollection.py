@@ -3,6 +3,7 @@ from tkinter import *
 import MapleGrab
 from ArrowNet import *
 import cv2
+import time
 
 """
 Factors
@@ -13,7 +14,8 @@ network_path = 'D:/OneDrive/MapleData/tfrecords/Arrow_classifier'
 #Our character and targets
 template_path_target = ['D:/OneDrive/MapleData/Resources/target_flower_violet.bmp',
                         'D:/OneDrive/MapleData/Resources/target_mine_black.bmp']
-template_path_chara = 'D:/OneDrive/MapleData/Resources/Mercedes.bmp'
+template_path_chara = 'D:/OneDrive/MapleData/Resources/chara_mercedes.bmp'
+
 #templates initialization
 template_target = []
 for i in range(len(template_path_target)):
@@ -48,7 +50,7 @@ def main_loop():
         #Screenshot, find target
         print("Finding target...")
         img = MapleGrab.capture_all(MapleGrab.CAPTURE_CV)
-        dist = MapleGrab.get_multi_distance(img,template_chara,template_target)
+        dist = MapleGrab.get_distance_bgr_multi(img,template_chara,template_target)
         if dist == None:
             #if nothing found
             print("Nothing found...")
@@ -59,6 +61,7 @@ def main_loop():
         #Get proper action
         #Send action to the keyboard
         #delay
+        time.sleep(5)
 
 
 """
