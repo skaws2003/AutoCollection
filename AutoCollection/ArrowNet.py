@@ -4,14 +4,11 @@ import tensorflow as tf
 This is a deep learning network for solving minigame in maplestory.
 """
 
-"""
-Graph initialization
-"""
-meta_path = 'D:/OneDrive/MapleData/tfrecords/Arrow_classifier.meta'
-network_path = 'D:/OneDrive/MapleData/tfrecords/Arrow_classifier'
+
+
 
 #Start
-print("ArrowNet:: Loading graph...")
+print("ArrowNet:: Building Graph...")
 
 #Placeholder for input image
 X = tf.placeholder(tf.float32,[None,28,28,3]) 
@@ -49,10 +46,4 @@ Y = tf.matmul(Y5,W6) + B6
 
 Y_softmax = tf.nn.softmax(Y)
 
-sess = tf.InteractiveSession()
-sess.run(tf.global_variables_initializer())
-
-trained_network = tf.train.import_meta_graph(meta_path)
-trained_network.restore(sess, network_path)
-
-print("ArrowNet:: Loading success")
+print("ArrowNet:: Building success")
