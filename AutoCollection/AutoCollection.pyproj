@@ -26,7 +26,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutoCollection.py" />
-    <Compile Include="MapleGrab.py">
+    <Compile Include="MapleImage.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MapleMovement.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

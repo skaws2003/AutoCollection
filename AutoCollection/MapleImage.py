@@ -28,7 +28,6 @@ def capture_all(format=0):
         image = cv2.cvtColor(np.array(pil_image),cv2.COLOR_RGB2GRAY)
     return image
 
-
 def capture_arrow_collection(format=0):
     """
     Captures the arrows on minigame for collection.
@@ -51,6 +50,15 @@ def capture_arrow_collection(format=0):
             img[i] = cv2.cvtColor(np.array(img[i]), cv2.COLOR_RGB2GRAY)
     return img
 
+def crop_minimap_collection(image):
+    """
+    Crop the given image to show only minimap.
+
+    Fields
+    - image: screenshot
+    """
+    minimap = image[19:123,8:175]
+    return minimap
 
 def match_template_gray(image,template,thresh=0.8):
     """
@@ -69,7 +77,6 @@ def match_template_gray(image,template,thresh=0.8):
     if maxima < thresh:
         return None
     return loc
-
 
 def match_template_bgr(image,template,thresh=0.8):
     """
@@ -93,7 +100,6 @@ def match_template_bgr(image,template,thresh=0.8):
         return None
     return loc
 
-
 def get_distance_gray(image,temp_chara,temp_target,thresh=(0.8,0.8)):
     """
     Calculates the distance from the character to target.
@@ -111,7 +117,6 @@ def get_distance_gray(image,temp_chara,temp_target,thresh=(0.8,0.8)):
     if targetPos == None or charaPos == None:
         return None
     return (targetPos[0] - charaPos[0], targetPos[1] - charaPos[1])
-
 
 def get_distance_bgr(image,temp_chara,temp_target,thresh=(0.8,0.8)):
     """
@@ -131,7 +136,6 @@ def get_distance_bgr(image,temp_chara,temp_target,thresh=(0.8,0.8)):
         return None
     return (targetPos[0] - charaPos[0], targetPos[1] - charaPos[1])
 
-
 def get_distance_gray_multi(image,temp_chara,temp_target,thresh=(0.8,0.8)):
     """
     Calculates the distance from the character to a target.
@@ -149,7 +153,6 @@ def get_distance_gray_multi(image,temp_chara,temp_target,thresh=(0.8,0.8)):
         if dist != None:
             return dist
     return None
-
 
 def get_distance_bgr_multi(image,temp_chara,temp_target,thresh=(0.8,0.8)):
     """
