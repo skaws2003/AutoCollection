@@ -46,7 +46,7 @@ def get_keyval(key):
     if len(key) == 1:
         return ord(key)
     else:
-        return modifier(key)
+        return modifier[key]
 
 
 class Keyop(object):
@@ -59,30 +59,27 @@ class Keyop(object):
         - key: a key character(string) to press
         """
         self.keyval=get_keyval(key)
-        self.random_delay = int(random.random()*10)
 
         
 class Keyop_press(Keyop):
-    def __init__(self,key,duration):
+    """
+    Press operation. Must attached by delay operaton.
+    """
+    def __init__(self,key):
         """
         Field
         - key: a key characetr(or string) to press
-        - duration: a minimum duration it should pressed
         """
         Keyop.__init__(self,key)
-        self.duration = duration
-
 
 
 class Keyop_touch(Keyop):
-    def __init__(self,key,delay):
+    def __init__(self,key):
         """
         Field
         - key: a key character(or string) to press
-        - delay: how long should I wait?
         """
         Keyop.__init__(self,key)
-        self.delay = delay
 
 
 class Keyop_delay(Keyop):
@@ -91,8 +88,9 @@ class Keyop_delay(Keyop):
         Field
         - duration: the amount of delay
         """
-        Keyop.__init__(self,duration)
         self.duration = duration
+        self.random_delay = random.randrange(0,10)
+
 
 
 class Timetable(object):
@@ -128,28 +126,18 @@ class Timetable(object):
         #선딜 추가
         max_time = random.randrange(100,150)
         for operset in self.oper_list:
-            max_time_temp = max_time
-            same_start=0
             for oper in operset:
-                max_time_local = max_time + same_start*100
                 if(isinstance(oper,Keyop_delay)):
-                    max_time_local += oper.delay
-                    max_time_local += oper.random_delay
-                    if max_time_temp < max_time_local: max_time_temp=max_time_local   
+                    max_time += oper.duration
+                    max_time += oper.random_delay
                 elif(isinstance(oper,Keyop_touch)):
-                    key_list.append((max_time_local,oper.keyval,KEYOP_PRESS))
-                    randnum=random.randrange(70,130)
-                    max_time_local += randnum
-                    key_list.append((max_time_local,oper.keyval,KEYOP_RELEASE))
-                    max_time_local += oper.delay
-                    max_time_local += oper.random_delay
-                    if max_time_temp < max_time_local: max_time_temp=max_time_local
+                    key_list.append((max_time,oper.keyval,KEYOP_PRESS))
+                    randnum=random.randrange(30,70)
+                    key_list.append((max_time+randnum,oper.keyval,KEYOP_RELEASE))
+                    max_time += 1
                 elif(isinstance(oper,Keyop_press)):
-                    key_list.append((max_time_local,oper.keyval,KEYOP_PRESS))
-                    max_time_local += oper.duration
-                    if max_time_temp < max_time_local: max_time_temp=max_time_local
-                same_start += 1
-            max_time = max_time_temp
+                    key_list.append((max_time,oper.keyval,KEYOP_PRESS))
+                    max_time += 1
             key_list.append((max_time,0,KEYOP_RELEASE_ALL))
         #sort the operation by the time order
         sorted(key_list,key=lambda first: first[0])
@@ -166,8 +154,46 @@ class Timetable(object):
 
 
 class Movement_mercedes(object):
+    keyset = {"KEY_Jump" : ' ',
+              "KEY_INTERACT" : 'KEY_LEFT_ALT'}
     def __init__(self):
         self.table = Timetable()
 
-    def double_jump(self):
-        print("jump")
+    def double_jume_left(self):
+        self.table.append(Keyop_press("KEY_LEFT_ARROW"))
+        self.table.attach(Keyop_delay(40))
+        self.table.attach(Keyop_touch(keyset("KEY_JUMP")))
+        self.table.attach(Keyop_delay(350))
+        self.table.attach(Keyop_touch(keyset("KEY_JUMP")))
+        self.table.attach(Keyop_delay(570))
+        
+    def double_jume_right(self):
+        self.table.append(Keyop_press("KEY_RIGHT_ARROW"))
+        self.table.attach(Keyop_delay(40))
+        self.table.attach(Keyop_touch(keyset("KEY_JUMP")))
+        self.table.attach(Keyop_delay(350))
+        self.table.attach(Keyop_touch(keyset("KEY_JUMP")))
+        self.table.attach(Keyop_delay(570))
+
+    def interact(self):
+        self.table.append(Keyop_touch(keyset("KEY_INTERACT")))
+        self.table.attach(Keyop_delay(100))
+
+    def move_left(self,duration):
+        self.table.append(Keyop_press("KEY_LEFT_ARROW"))
+        self.table.attach(Keyop_delay(duration))
+
+    def move_right(self,duration):
+        self.table.append(Keyop_press("KEY_RIGHT_ARROW"))
+        self.table.attach(Keyop_delay(duration))
+
+    def charge_high_leaf(self):
+        self.table.append(Keyop_press("KEY_DOWN_ARROW"))
+        self.table.attach(Keyop_delay(45))
+        self.table.attach(Keyop_touch('x'))
+        self.table.attach(Keyop_delay(155))
+        self.table.attach(Keyop_touch('c'))
+        self.table.attach(Keyop_delay(145))
+        self.table.attach(Keyop_touch('d'))
+        self.table.attach(Keyop_delay(200))
+

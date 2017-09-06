@@ -54,6 +54,6 @@ void loop() {
       ptr = strtok(NULL,":");
     }
     Serial.flush();
-    Serial.println(1);
   }
+  else delay(100);
 }
