@@ -9,20 +9,20 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Keyboard.press(KEY_DOWN_ARROW);
-  delay(50);
-  Keyboard.press('x');
-  delay(60);
-  Keyboard.release('x');
-  delay(100);
-  Keyboard.press('c');
-  delay(50);
-  Keyboard.release('c');
-  delay(100);
+  Keyboard.press(KEY_UP_ARROW);
+  delay(10);
+  Keyboard.press(' ');
+  delay(40);
+  Keyboard.release(' ');
+  delay(310);
   Keyboard.press('d');
   delay(40);
   Keyboard.release('d');
-  delay(60);
+  delay(95);
+  Keyboard.press('t');
+  delay(30);
+  Keyboard.release('t');
+  delay(10);
   Keyboard.releaseAll();
   Serial.println("done.");
   delay(10000) ;

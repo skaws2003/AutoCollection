@@ -159,6 +159,9 @@ class Movement_mercedes(object):
     def __init__(self):
         self.table = Timetable()
 
+    def build_message(self):
+        self.table.build_string()
+
     def double_jume_left(self):
         self.table.append(Keyop_press("KEY_LEFT_ARROW"))
         self.table.attach(Keyop_delay(40))
@@ -196,4 +199,20 @@ class Movement_mercedes(object):
         self.table.attach(Keyop_delay(145))
         self.table.attach(Keyop_touch('d'))
         self.table.attach(Keyop_delay(200))
+
+    def up_leaf_escape(self):
+        self.table.append(Keyop_touch(keyset("KEY_JUMP")))
+        self.table.attach(Keyop_delay(350))
+        self.table.attach(Keyop_touch('d'))
+        self.table.attach(Keyop_delay(140))
+        self.table.attach(Keyop_touch('t'))
+        self.table.attach(Keyop_delay(20))
+
+
+class movement_mercedes_collection(Movement_mercedes):
+    def seek_movement(self,loc):
+        print("Seek...")
+
+    def collect_movement(self,diff):
+        print("Collect...")
 
